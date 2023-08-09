@@ -1,4 +1,4 @@
-namespace artPost.Models
+namespace artPost_.Models
 {
     public class ErrorViewModel
     {

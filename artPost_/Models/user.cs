@@ -13,7 +13,8 @@ namespace artPost.Models
         [Required]
         public string userName { get; set; }
 
-        public List<string> images { get; set; }
+        [NotMapped]
+        public List<string> images { get; set; } = new List<string>();
 
         public string description { get; set; }
 

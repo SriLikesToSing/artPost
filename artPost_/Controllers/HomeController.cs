@@ -1,8 +1,8 @@
-﻿using artPost.Models;
+﻿using artPost_.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace artPost.Controllers
+namespace artPost_.Controllers
 {
     public class HomeController : Controller
     {
