@@ -1,4 +1,5 @@
 ﻿using artPost_.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -23,6 +24,7 @@ namespace artPost_.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Profile()
         {
             return View();
