@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace artPost.Models
 {
-    [Table("useList")]
+    [Table("userList")]
     public class userList
     {
         public int Id { get; set; }

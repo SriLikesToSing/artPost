@@ -1,6 +1,17 @@
-﻿@{
+﻿@model artPost.Models.user
+
+@{
     ViewData["Title"] = "Profile";
 }
 <h1>@ViewData["Title"]</h1>
 
-<p>temp profile page</p>
+
+@if(Model.isProfileCreated == false){
+    <button type="button">create a new profile</button>
+}
+else
+{
+    //showcase the complete profile with the model
+    <p>Welcome @User.Identity.Name</p>
+}
+

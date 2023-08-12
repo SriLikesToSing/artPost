@@ -27,7 +27,7 @@ namespace artPost_.Controllers
         [Authorize]
         public IActionResult Profile()
         {
-            return View();
+            return View(new artPost.Models.user());
 
         }
 

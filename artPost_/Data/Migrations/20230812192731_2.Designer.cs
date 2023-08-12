@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using artPost_.Data;
 
@@ -11,9 +12,11 @@ using artPost_.Data;
 namespace artPost_.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230812192731_2")]
+    partial class _2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -239,9 +242,6 @@ namespace artPost_.Data.Migrations
                     b.Property<int>("followers")
                         .HasColumnType("int");
 
-                    b.Property<bool>("isProfileCreated")
-                        .HasColumnType("bit");
-
                     b.Property<string>("profilePicLink")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -277,7 +277,7 @@ namespace artPost_.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("userList");
+                    b.ToTable("useList");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

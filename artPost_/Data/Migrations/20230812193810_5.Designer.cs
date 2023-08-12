@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using artPost_.Data;
 
@@ -11,9 +12,11 @@ using artPost_.Data;
 namespace artPost_.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230812193810_5")]
+    partial class _5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,9 +241,6 @@ namespace artPost_.Data.Migrations
 
                     b.Property<int>("followers")
                         .HasColumnType("int");
-
-                    b.Property<bool>("isProfileCreated")
-                        .HasColumnType("bit");
 
                     b.Property<string>("profilePicLink")
                         .IsRequired()
