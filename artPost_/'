@@ -1,9 +1,10 @@
-﻿@model artPost.Models.user
+@model artPost.Models.user
 
 @{
     ViewData["Title"] = "Profile";
 }
 <h1>@ViewData["Title"]</h1>
+
 
 @if(Model.isProfileCreated == false){
     <button type="button">create a new profile</button>
@@ -12,7 +13,6 @@ else
 {
     //showcase the complete profile with the model
     <p>Welcome @User.Identity.Name</p>
-    <a href="/Home/createPost" class="btn btn-primary">Create Post</a>
-
+    <button type="button" onclick="google.com">create post</button>
 }
 

@@ -8,7 +8,6 @@ namespace artPost.Models
     {
         public int Id { get; set; }
         public List<user> users { get; set; }
-
         public int userCount { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using artPost_.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 
@@ -15,7 +16,7 @@ namespace artPost.Models
         public string userName { get; set; }
 
         [NotMapped]
-        public List<string> images { get; set; } = new List<string>();
+        public List<Image> images { get; set; } = new List<Image>();
 
         public string description { get; set; }
 
@@ -24,6 +25,6 @@ namespace artPost.Models
         [Required]
         public int followers { get; set; }
 
-        public bool isProfileCreated { get; set; } = false;
+        public bool isProfileCreated { get; set; } = true;
     }
 }
