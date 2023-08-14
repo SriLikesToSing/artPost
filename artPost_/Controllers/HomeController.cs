@@ -37,6 +37,24 @@ namespace artPost_.Controllers
             return View();
         }
 
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> createPost(string title, string description, IFormFile postImage)
+        {
+
+            if(title == null || description == null || postImage == null)
+            {
+                return View();
+
+            }
+
+            //create new "Image" and store it in db.
+            //create new table Image with specific ID's
+            //store that image inside the user with the specific userId
+
+             return RedirectToAction("Profile");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

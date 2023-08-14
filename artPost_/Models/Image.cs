@@ -10,10 +10,12 @@ namespace artPost_.Models
 
         public string Description { get; set; }
 
-        public string image { get; set; }
+        public IFormFile image { get; set; }
 
         public int imageId { get; set; }
 
-        //maybe add likes feature?
+        public string ownerId { get; set; }
+
+        //maybe add likes and tags feature?
     }
 }
