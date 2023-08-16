@@ -1,4 +1,5 @@
-﻿using artPost_.Models;
+﻿using artPost_.Data;
+using artPost_.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -7,11 +8,14 @@ namespace artPost_.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ApplicationDbContext _db;
         private readonly ILogger<HomeController> _logger;
+        MemoryStream memoryStream = new MemoryStream(); 
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db)
         {
             _logger = logger;
+            _db = db;
         }
 
         public IActionResult Index()
@@ -39,18 +43,44 @@ namespace artPost_.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> createPost(string title, string description, IFormFile postImage)
+        public async Task<IActionResult> createPost(string title, string description, IFormFile Image )
         {
-
-            if(title == null || description == null || postImage == null)
+            if(title == null || description == null || Image == null)
             {
                 return View();
-
             }
 
-            //create new "Image" and store it in db.
-            //create new table Image with specific ID's
-            //store that image inside the user with the specific userId
+            byte [] byteImage; 
+
+            if(Image.Length > 0)
+            {
+                byte[] p1 = null;
+                using (var fs1 = Image.OpenReadStream()) 
+                using (var ms1 = new MemoryStream())
+                {
+                    fs1.CopyTo(ms1);
+                    p1 = ms1.ToArray();
+                }
+                byteImage = p1;
+            }
+            else
+            {
+                return View();
+            }
+
+            Debug.WriteLine(title + " " + description + " " + Image);
+            using var transaction = _db.Database.BeginTransaction();
+
+            var POST = new Image
+            {
+                Title = title,
+                Description = description,
+                image = byteImage,
+                ownerId = User.Identity.Name
+            };
+            _db.image.Add(POST);
+            _db.SaveChanges();
+            transaction.Commit();
 
              return RedirectToAction("Profile");
         }
