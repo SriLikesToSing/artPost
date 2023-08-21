@@ -1,18 +1,24 @@
 ﻿@model artPost.Models.user
 
+
 @{
     ViewData["Title"] = "Profile";
 }
 <h1>@ViewData["Title"]</h1>
 
-@if(Model.isProfileCreated == false){
-    <button type="button">create a new profile</button>
+@{
+    bool isCreated = false;
 }
-else
+
+<p>Welcome @Model.userName</p>
+<a href="/Home/createPost" class="btn btn-primary">Create Post</a>
+<a href="/Home/createProfile" class="btn btn-primary">edit or create a new profile</a>
+
+<p>@Model.profilePic</p>
+<p>@Model.description</p>
+<p>followers: @Model.followers</p>
+
+@foreach(Image picture in Model.images)
 {
-    //showcase the complete profile with the model
-    <p>Welcome @User.Identity.Name</p>
-    <a href="/Home/createPost" class="btn btn-primary">Create Post</a>
-
+    <p>@picture</p>
 }
-

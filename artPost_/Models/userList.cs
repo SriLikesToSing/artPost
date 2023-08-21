@@ -7,7 +7,8 @@ namespace artPost.Models
     public class userList
     {
         public int Id { get; set; }
-        public List<user> users { get; set; }
+        public ICollection<user> users { get; set; }
+        [Required]
         public int userCount { get; set; }
     }
 }

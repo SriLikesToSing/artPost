@@ -1,7 +1,11 @@
-﻿using artPost_.Data;
+﻿using artPost.Models;
+using artPost_.Data;
 using artPost_.Models;
+using Humanizer.Localisation.TimeToClockNotation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using System.Diagnostics;
 
 namespace artPost_.Controllers
@@ -29,16 +33,52 @@ namespace artPost_.Controllers
         }
 
         [Authorize]
-        public IActionResult Profile()
+        public async Task<IActionResult> Profile()
         {
-            return View(new artPost.Models.user());
+            var specificUser = await _db.user.FirstOrDefaultAsync(x => x.userName == User.Identity.Name);
+            Debug.WriteLine(specificUser);
+            if(specificUser == null)
+            {
+                using var transaction = _db.Database.BeginTransaction();
+                Random rnd = new Random();
+                var newUser = new user
+                
+                {
+                    userName = User.Identity.Name,
+                    followers = 0,
+                    description = "",
+                    profilePic = 0x00
+                };
 
+                _db.user.Add(newUser);
+                _db.SaveChanges();
+                transaction.Commit();
+                specificUser = await _db.user.FirstOrDefaultAsync(x => x.userName == User.Identity.Name);
+            }
+            return View(specificUser);
+        }
+
+        [Authorize]
+        public IActionResult createProfile()
+        {
+            return View();
         }
 
         [Authorize]
         public IActionResult createPost()
         {
             return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> createProfile(string profileDescription, IFormFile profileImage)
+        {
+            if(profileDescription == null || profileImage == null) {
+                return View(); 
+            }
+            
+            return RedirectToAction("Profile");
         }
 
         [Authorize]
@@ -78,6 +118,15 @@ namespace artPost_.Controllers
                 image = byteImage,
                 ownerId = User.Identity.Name
             };
+            
+            foreach(var item in _db.user)
+            {
+                if(item.userName == User.Identity.Name)
+                {
+                    item.images.Add(POST);
+                }
+            }
+
             _db.image.Add(POST);
             _db.SaveChanges();
             transaction.Commit();

@@ -1,0 +1,11 @@
+﻿
+<div class="text-center">
+    <h1 class="display-4">Create a New Profile.</h1>
+    <h4> remember... one of our quirks is that the description and profile picture are permanent and cannot be changed later, so think wisely.</h4>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="textarea" id="profileDescription" name="ProfileDescription" placeholder="Profile Description">
+        <input type="file" id="profilePostImage" name="ProfilePostImage" accept="image/*"/>
+        <br />
+        <input onclick="/Home/Profile"type="submit" value="Submit" />
+    </form>
+</div>
