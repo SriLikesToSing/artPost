@@ -17,7 +17,7 @@ namespace artPost.Models
 
         public string description { get; set; }
 
-        public byte profilePic { get; set; } 
+        public byte [] profilePic { get; set; } 
 
         [Required]
         public int followers { get; set; }

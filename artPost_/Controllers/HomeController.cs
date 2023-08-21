@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
 
 namespace artPost_.Controllers
@@ -42,12 +43,12 @@ namespace artPost_.Controllers
                 using var transaction = _db.Database.BeginTransaction();
                 Random rnd = new Random();
                 var newUser = new user
-                
+
                 {
                     userName = User.Identity.Name,
                     followers = 0,
                     description = "",
-                    profilePic = 0x00
+                    profilePic = Array.Empty<byte>(),
                 };
 
                 _db.user.Add(newUser);
@@ -72,12 +73,55 @@ namespace artPost_.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> createProfile(string profileDescription, IFormFile profileImage)
+        public async Task<IActionResult> createProfile(string profileDescription, IFormFile profilePostImage)
         {
-            if(profileDescription == null || profileImage == null) {
+            if(profileDescription == null && profilePostImage == null) {
                 return View(); 
             }
-            
+
+            byte [] byteImage = Array.Empty<byte>();
+
+            bool isImage = false;
+
+            if(profilePostImage != null)
+            {
+
+            if(profilePostImage.Length > 0)
+            {
+                byte[] p1 = null;
+                using (var fs1 = profilePostImage.OpenReadStream()) 
+                using (var ms1 = new MemoryStream())
+                {
+                    fs1.CopyTo(ms1);
+                    p1 = ms1.ToArray();
+                }
+                byteImage = p1;
+                isImage = true;
+            }
+            else
+            {
+                return View();
+            }
+           }
+
+            using var transaction = _db.Database.BeginTransaction();
+            foreach(var item in _db.user)
+            {
+                if(item.userName == User.Identity.Name)
+                {
+                    item.description = profileDescription;
+
+                    if(isImage == true)
+                    {
+                        item.profilePic = byteImage;
+                    }
+
+                }
+            }
+
+            _db.SaveChanges();
+            transaction.Commit();
+
             return RedirectToAction("Profile");
         }
 
@@ -121,6 +165,7 @@ namespace artPost_.Controllers
             
             foreach(var item in _db.user)
             {
+                Console.WriteLine(item);
                 if(item.userName == User.Identity.Name)
                 {
                     item.images.Add(POST);
