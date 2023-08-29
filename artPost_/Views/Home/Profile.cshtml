@@ -1,5 +1,5 @@
 ﻿@model artPost.Models.user
-
+@using Newtonsoft.Json;
 
 @{
     ViewData["Title"] = "Profile";
@@ -17,8 +17,25 @@
 <img src="data:image;base64,@System.Convert.ToBase64String(Model.profilePic)" />
 <p>@Model.description</p>
 <p>followers: @Model.followers</p>
+<p>@Model.imagesJsonString</p>
 
-@foreach(Image picture in Model.images)
+
+@foreach(var IMAGE in JsonConvert.DeserializeObject<List<Image>>(Model.imagesJsonString))
 {
-    <p>@picture</p>
+    <img src="data:image;base64,@System.Convert.ToBase64String(IMAGE.image)" />
 }
+
+@{
+    string temp = Model.imagesJsonString;
+}
+
+
+
+
+
+
+
+
+
+
+

@@ -7,7 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Reflection;
+using System.Text.Json;
 
 namespace artPost_.Controllers
 {
@@ -22,6 +25,12 @@ namespace artPost_.Controllers
             _logger = logger;
             _db = db;
         }
+
+        private readonly JsonSerializerOptions _options = new()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = true,
+        };
 
         public IActionResult Index()
         {
@@ -42,13 +51,25 @@ namespace artPost_.Controllers
             {
                 using var transaction = _db.Database.BeginTransaction();
                 Random rnd = new Random();
-                var newUser = new user
+                var tempArray = new List<Image>();
 
+                var POST = new Image
+                    {
+                    Title = "dummy",
+                    Description = "dummy desc",
+                    image = new byte[] {0x00}, 
+                    ownerId = User.Identity.Name
+                   };
+
+                tempArray.Add(POST);
+                var newUser = new user
                 {
                     userName = User.Identity.Name,
                     followers = 0,
                     description = "",
                     profilePic = Array.Empty<byte>(),
+                    imagesJsonString = JsonConvert.SerializeObject(tempArray),
+                    images = new List<Image>()
                 };
 
                 _db.user.Add(newUser);
@@ -169,6 +190,10 @@ namespace artPost_.Controllers
                 if(item.userName == User.Identity.Name)
                 {
                     item.images.Add(POST);
+                    var deserialized = JsonConvert.DeserializeObject<List<Image>>(item.imagesJsonString);
+                    deserialized.Add(POST);
+                    item.imagesJsonString = JsonConvert.SerializeObject(deserialized);
+                    Console.WriteLine(item.images);
                 }
             }
 
