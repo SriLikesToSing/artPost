@@ -23,6 +23,8 @@
 @foreach(var IMAGE in JsonConvert.DeserializeObject<List<Image>>(Model.imagesJsonString))
 {
     <img src="data:image;base64,@System.Convert.ToBase64String(IMAGE.image)" />
+    <p> @IMAGE.Title</p>
+    <p> @IMAGE.Description </p>
 }
 
 @{

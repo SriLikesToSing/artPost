@@ -1,8 +1,15 @@
-﻿@{
+﻿@model List<artPost.Models.user>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1> YOOOO WHAT IS UP MY PEOPLE OF AFRICA!</h1>
+
+@foreach(var item in Model)
+{
+    <form method="POST" enctype="multipart/form-data">
+        <input type="hidden" id="userNameLink" name="userNameLink" value=@item.userName>
+        <input onclick="/Home/viewOtherProfile" type="submit" value=@item.userName />
+    </form>
+}

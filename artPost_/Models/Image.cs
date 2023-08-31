@@ -19,6 +19,7 @@ namespace artPost_.Models
         public int imageId { get; set; }
 
         public string ownerId { get; set; }
+        public int likes { get; set; }
 
         //maybe add likes and tags feature?
     }

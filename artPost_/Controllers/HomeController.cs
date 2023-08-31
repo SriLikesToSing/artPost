@@ -32,9 +32,9 @@ namespace artPost_.Controllers
             WriteIndented = true,
         };
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(_db.user.ToList());
         }
 
         public IActionResult Privacy()
@@ -78,6 +78,13 @@ namespace artPost_.Controllers
                 specificUser = await _db.user.FirstOrDefaultAsync(x => x.userName == User.Identity.Name);
             }
             return View(specificUser);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult viewOtherProfile(string viewOtherProfile)
+        {
+            return View();
         }
 
         [Authorize]
