@@ -2,14 +2,20 @@
 
 @{
     ViewData["Title"] = "Home Page";
+
+
 }
 
 <h1> YOOOO WHAT IS UP MY PEOPLE OF AFRICA!</h1>
 
+
 @foreach(var item in Model)
+//for(int x=0; x<N; x++)
+//      Model[x] => then find the posts
+//for each random N indexes in the list
+//pick a random post from the list of posts (if there are any)
+//should be O(N) where N is the number of indexes you want to select
+
 {
-    <form method="POST" enctype="multipart/form-data">
-        <input type="hidden" id="userNameLink" name="userNameLink" value=@item.userName>
-        <input onclick="/Home/viewOtherProfile" type="submit" value=@item.userName />
-    </form>
+    <a href="/Home/viewOtherProfile?value=@item.userName">@item.userName</a>
 }

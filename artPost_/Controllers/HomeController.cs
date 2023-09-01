@@ -80,11 +80,10 @@ namespace artPost_.Controllers
             return View(specificUser);
         }
 
-        [HttpPost]
         [AllowAnonymous]
-        public IActionResult viewOtherProfile(string viewOtherProfile)
+        public IActionResult viewOtherProfile()
         {
-            return View();
+            return View(_db.user.ToList());
         }
 
         [Authorize]

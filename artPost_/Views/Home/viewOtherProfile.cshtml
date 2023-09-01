@@ -1,10 +1,31 @@
-﻿@{
+﻿@model List<artPost.Models.user>
+@using Newtonsoft.Json;
+
+@{
     ViewData["Title"] = "viewOtherProfile";
+    var routeUrl = Url.RouteUrl(ViewContext.RouteData.Values);
+    var qsPath = ViewContext.HttpContext.Request.QueryString.Value;
+    var returnUrl = $"{routeUrl}{qsPath}";
+    var USER_NAME = qsPath.Substring(7);
 }
 
+<p>@qsPath.Substring(7)</p>
 
+@foreach(var item in Model)
+{
+    if(item.userName == USER_NAME)
+    {
+        <img src="data:image;base64,@System.Convert.ToBase64String(item.profilePic)" />
+        <p>@item.description</p>
+        <p>followers: @item.followers</p>
+
+        @foreach(var IMAGE in JsonConvert.DeserializeObject<List<Image>>(item.imagesJsonString))
+        {
+            <img src="data:image;base64,@System.Convert.ToBase64String(IMAGE.image)" />
+            <p> @IMAGE.Title</p>
+            <p> @IMAGE.Description </p>
+        }
+    }
+}
 
 <p> what's up mothertruckers'</p>
-
-
-
