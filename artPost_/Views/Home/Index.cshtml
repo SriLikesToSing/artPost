@@ -5,6 +5,7 @@
     ViewData["Title"] = "Home Page";
 }
 
+
 @{
     int userSize = Model.Count;
     Random rnd = new Random();
@@ -46,7 +47,7 @@
     {
         continue;
     }
-    <img src="data:image;base64,@System.Convert.ToBase64String(imagesList[randomPostIndex].image)"/>
+    <img src="data:image;base64,@System.Convert.ToBase64String(imagesList[randomPostIndex].image)" width="500"/>
     <p> @imagesList[randomPostIndex].Title</p>
     <p> @imagesList[randomPostIndex].Description </p>
 }

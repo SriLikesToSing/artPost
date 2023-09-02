@@ -14,13 +14,13 @@
 <a href="/Home/createPost" class="btn btn-primary">Create Post</a>
 <a href="/Home/createProfile" class="btn btn-primary">edit or create a new profile</a>
 
-<img src="data:image;base64,@System.Convert.ToBase64String(Model.profilePic)" />
+<img src="data:image;base64,@System.Convert.ToBase64String(Model.profilePic)"/>
 <p>@Model.description</p>
 <p>followers: @Model.followers</p>
 
 @foreach(var IMAGE in JsonConvert.DeserializeObject<List<Image>>(Model.imagesJsonString))
 {
-    <img src="data:image;base64,@System.Convert.ToBase64String(IMAGE.image)" />
+    <img src="data:image;base64,@System.Convert.ToBase64String(IMAGE.image)" width="500"/>
     <p> @IMAGE.Title</p>
     <p> @IMAGE.Description </p>
 }

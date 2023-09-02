@@ -80,6 +80,25 @@ namespace artPost_.Controllers
             return View(specificUser);
         }
 
+        [Authorize]
+        public async Task<IActionResult> likes(string userName, int imageId)
+        {
+            var specificUser = await _db.user.FirstOrDefaultAsync(x => x.userName == User.Identity.Name);
+
+            List<Image> userImages = JsonConvert.DeserializeObject<List<Image>>(specificUser.imagesJsonString);
+
+            foreach(var image in userImages)
+            {
+                if(image.imageId == imageId)
+                {
+                    image.likes++;
+                }
+            }
+            _db.SaveChanges();
+
+            return View();
+        }
+
         [AllowAnonymous]
         public IActionResult viewOtherProfile()
         {
