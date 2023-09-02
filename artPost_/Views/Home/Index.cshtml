@@ -1,21 +1,52 @@
 ﻿@model List<artPost.Models.user>
+@using Newtonsoft.Json;
 
 @{
     ViewData["Title"] = "Home Page";
+}
 
+@{
+    int userSize = Model.Count;
+    Random rnd = new Random();
+    int nindexesSize = rnd.Next(1, userSize);
+
+    List<int> nIndexes = new List<int>();
+
+    for(int x=0; x<nindexesSize; x++)
+    {
+        nIndexes.Add(rnd.Next(0, userSize));
+    }
+
+    nIndexes = nIndexes.Distinct().ToList();
 
 }
 
 <h1> YOOOO WHAT IS UP MY PEOPLE OF AFRICA!</h1>
 
-
-@foreach(var item in Model)
-//for(int x=0; x<N; x++)
-//      Model[x] => then find the posts
-//for each random N indexes in the list
-//pick a random post from the list of posts (if there are any)
-//should be O(N) where N is the number of indexes you want to select
-
+@foreach(var index in nIndexes)
 {
-    <a href="/Home/viewOtherProfile?value=@item.userName">@item.userName</a>
+    if(Model[index].userName == User.Identity.Name)
+    {
+        <a href="/Home/Profile">@Model[index].userName</a>
+    }
+    else
+    {
+        <a href="/Home/viewOtherProfile?value=@Model[index].userName">@Model[index].userName</a>
+    }
+    <br/>
+    List<Image> imagesList = JsonConvert.DeserializeObject<List<Image>>(Model[index].imagesJsonString);
+    if(imagesList == null || imagesList.Count == 1)
+    {
+        continue;
+    }
+    var randomPostIndex = rnd.Next(1, imagesList.Count);
+
+    //temp for temp user purposes IGNNNORE THE FUCKING LEGACY USER LOL
+    if(imagesList[randomPostIndex].image == null)
+    {
+        continue;
+    }
+    <img src="data:image;base64,@System.Convert.ToBase64String(imagesList[randomPostIndex].image)"/>
+    <p> @imagesList[randomPostIndex].Title</p>
+    <p> @imagesList[randomPostIndex].Description </p>
 }
