@@ -80,25 +80,6 @@ namespace artPost_.Controllers
             return View(specificUser);
         }
 
-        [Authorize]
-        public async Task<IActionResult> likes(string userName, int imageId)
-        {
-            var specificUser = await _db.user.FirstOrDefaultAsync(x => x.userName == User.Identity.Name);
-
-            List<Image> userImages = JsonConvert.DeserializeObject<List<Image>>(specificUser.imagesJsonString);
-
-            foreach(var image in userImages)
-            {
-                if(image.imageId == imageId)
-                {
-                    image.likes++;
-                }
-            }
-            _db.SaveChanges();
-
-            return View();
-        }
-
         [AllowAnonymous]
         public IActionResult viewOtherProfile()
         {
@@ -206,7 +187,9 @@ namespace artPost_.Controllers
                 Title = title,
                 Description = description,
                 image = byteImage,
-                ownerId = User.Identity.Name
+                ownerId = User.Identity.Name,
+                likeCount = JsonConvert.SerializeObject(new List<string>()),
+                likes = 0
             };
             
             foreach(var item in _db.user)
@@ -227,6 +210,34 @@ namespace artPost_.Controllers
             transaction.Commit();
 
              return RedirectToAction("Profile");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> check(string name, int image)
+        {
+
+            if(name == User.Identity.Name)
+            {
+                return View();
+            }
+
+            var specificUser = await _db.user.FirstOrDefaultAsync(x => x.userName == name);
+
+            List<Image> imageData = JsonConvert.DeserializeObject<List<Image>>(specificUser.imagesJsonString);
+
+            foreach(var x in imageData)
+            {
+                if(x.imageId == image)
+                {
+                    List<string> likeList = JsonConvert.DeserializeObject<List<string>>(x.likeCount);
+                    likeList.Add(User.Identity.Name);
+                    x.likeCount = JsonConvert.SerializeObject(likeList.Distinct().ToList());
+                    //hella overcomplicated here
+                    x.likes = likeList.Distinct().ToList().Count; 
+                }
+            }
+
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
