@@ -1,6 +1,7 @@
 ﻿@model List<artPost.Models.user>
 @using Newtonsoft.Json;
 
+
 @{
     ViewData["Title"] = "viewOtherProfile";
     var routeUrl = Url.RouteUrl(ViewContext.RouteData.Values);
@@ -17,16 +18,21 @@
     {
         <img src="data:image;base64,@System.Convert.ToBase64String(item.profilePic)"/>
         <p>@item.description</p>
-        <p>followers: @item.followers</p>
-
         @foreach(var IMAGE in JsonConvert.DeserializeObject<List<Image>>(item.imagesJsonString))
         {
+            <p>image ID: @IMAGE.iID</p>
             <img src="data:image;base64,@System.Convert.ToBase64String(IMAGE.image)" />
             <p> @IMAGE.Title</p>
             <p> @IMAGE.Description </p>
-            <button name="button" asp-action="check" asp-route-name=@item.userName asp-route-image=@IMAGE.imageId>Like</button>
+            <p> @IMAGE.likes</p>
+            @Html.ActionLink(
+      "Like",
+      "check",                         // controller action
+      "Home",        // controller
+      new { name = item.userName, image = IMAGE.iID},         // action parameters aka route values
+      new { @class = "btn btn-info" })
+                // html attributes
         }
     }
 }
 
-<p> what's up mothertruckers'</p>

@@ -13,7 +13,6 @@ namespace artPost_.Data
         }
             public DbSet<user> user {  get; set; }
             public DbSet<userList> userList { get; set; }
-
             public DbSet<Image> image { get; set; }
 
         

@@ -8,6 +8,7 @@
 
 @{
     bool isCreated = false;
+    List<Image> userImages = JsonConvert.DeserializeObject<List<Image>>(Model.imagesJsonString);
 }
 
 <p>Welcome @Model.userName</p>
@@ -18,7 +19,7 @@
 <p>@Model.description</p>
 <p>followers: @Model.followers</p>
 
-@foreach(var IMAGE in JsonConvert.DeserializeObject<List<Image>>(Model.imagesJsonString))
+@foreach(var IMAGE in userImages)
 {
     <img src="data:image;base64,@System.Convert.ToBase64String(IMAGE.image)" width="500"/>
     <p> @IMAGE.Title</p>

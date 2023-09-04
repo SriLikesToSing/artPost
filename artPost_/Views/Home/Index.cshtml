@@ -7,23 +7,22 @@
 
 
 @{
-    int userSize = Model.Count;
-    Random rnd = new Random();
-    int nindexesSize = rnd.Next(1, userSize);
+        int userSize = Model.Count;
+        Random rnd = new Random();
+        int nindexesSize = rnd.Next(1, userSize);
 
-    List<int> nIndexes = new List<int>();
+        List<int> nIndexes = new List<int>();
 
-    for(int x=0; x<nindexesSize; x++)
-    {
-        nIndexes.Add(rnd.Next(0, userSize));
+        for(int x=0; x<nindexesSize; x++)
+        {
+            nIndexes.Add(rnd.Next(0, userSize));
+        }
+
+        nIndexes = nIndexes.Distinct().ToList();
     }
 
-    nIndexes = nIndexes.Distinct().ToList();
-}
-
 <h1> YOOOO WHAT IS UP MY PEOPLE OF AFRICA!</h1>
-
-@foreach(var index in nIndexes)
+    @foreach(var index in nIndexes)
 {
     if(Model[index].userName == User.Identity.Name)
     {
@@ -50,3 +49,4 @@
     <p> @imagesList[randomPostIndex].Title</p>
     <p> @imagesList[randomPostIndex].Description </p>
 }
+

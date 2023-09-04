@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text.Json;
@@ -181,6 +182,7 @@ namespace artPost_.Controllers
 
             Debug.WriteLine(title + " " + description + " " + Image);
             using var transaction = _db.Database.BeginTransaction();
+            Guid guid = Guid.NewGuid();
 
             var POST = new Image
             {
@@ -188,8 +190,9 @@ namespace artPost_.Controllers
                 Description = description,
                 image = byteImage,
                 ownerId = User.Identity.Name,
-                likeCount = JsonConvert.SerializeObject(new List<string>()),
-                likes = 0
+                likeCount = JsonConvert.SerializeObject(new List<string> { User.Identity.Name }),
+                likes = 1,
+                iID = guid.ToString()
             };
             
             foreach(var item in _db.user)
@@ -213,31 +216,37 @@ namespace artPost_.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> check(string name, int image)
+        public async Task<IActionResult> check(string name, string image)
         {
 
             if(name == User.Identity.Name)
             {
-                return View();
+                return Redirect("Home/Profile");
             }
+
+            using var transaction = _db.Database.BeginTransaction();
 
             var specificUser = await _db.user.FirstOrDefaultAsync(x => x.userName == name);
 
             List<Image> imageData = JsonConvert.DeserializeObject<List<Image>>(specificUser.imagesJsonString);
 
-            foreach(var x in imageData)
+            for(int x=0; x<imageData.Count; x++)
             {
-                if(x.imageId == image)
+                if (imageData[x].iID == image && imageData[x].likeCount != null)
                 {
-                    List<string> likeList = JsonConvert.DeserializeObject<List<string>>(x.likeCount);
+                    List<string> likeList = JsonConvert.DeserializeObject<List<string>>(imageData[x].likeCount);
                     likeList.Add(User.Identity.Name);
-                    x.likeCount = JsonConvert.SerializeObject(likeList.Distinct().ToList());
-                    //hella overcomplicated here
-                    x.likes = likeList.Distinct().ToList().Count; 
+                    imageData[x].likeCount = JsonConvert.SerializeObject(likeList.Distinct().ToList());
+                    imageData[x].likes = likeList.Distinct().ToList().Count;
                 }
             }
+            specificUser.images = imageData;
 
-            return View();
+
+            _db.SaveChanges();
+            transaction.Commit();
+
+            return RedirectToAction("viewOtherProfile", new { value = name });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
