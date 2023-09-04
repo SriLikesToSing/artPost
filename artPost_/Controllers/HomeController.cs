@@ -240,8 +240,7 @@ namespace artPost_.Controllers
                     imageData[x].likes = likeList.Distinct().ToList().Count;
                 }
             }
-            specificUser.images = imageData;
-
+            specificUser.imagesJsonString = JsonConvert.SerializeObject(imageData);
 
             _db.SaveChanges();
             transaction.Commit();
