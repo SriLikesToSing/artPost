@@ -137,7 +137,10 @@ namespace artPost_.Controllers
             {
                 if(item.userName == User.Identity.Name)
                 {
-                    item.description = profileDescription;
+                    if (profileDescription != null)
+                    {
+                        item.description = profileDescription;
+                    }
 
                     if(isImage == true)
                     {

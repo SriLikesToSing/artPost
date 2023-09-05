@@ -10,6 +10,159 @@
     var USER_NAME = qsPath.Substring(7);
 }
 
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="/css/fontawesome.css">
+    <link rel="stylesheet" href="/css/templatemo-cyborg-gaming.css">
+    <link rel="stylesheet" href="/css/owl.css">
+    <link rel="stylesheet" href="/css/animate.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+
+
+</head>
+
+<body>
+
+    <!-- ***** Preloader Start ***** -->
+    <div id="js-preloader" class="js-preloader">
+        <div class="preloader-inner">
+            <span class="dot"></span>
+            <div class="dots">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+    <!-- ***** Preloader End ***** -->
+    <!-- ***** Header Area Start ***** -->
+    <nav class="navbar">
+
+        <header class="header-area header-sticky">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <nav class="main-nav">
+                            <!-- ***** Logo Start ***** -->
+                            <a class="navbar-brand" href="/Home/index" style="position:fixed; left:0; top:0px; width:150px; border:none;">
+                                <img src="/images/artPostLogo2.png" width="150" alt="">
+                            </a>
+                            <!-- ***** Logo End ***** -->
+                            <!-- ***** Search End ***** -->
+                            <!--
+                            <div class="search-input">
+                                <form id="search" action="#">
+                                    <input type="text" placeholder="Type Something" id='searchText' name="searchKeyword" onkeypress="handle" />
+                                    <i class="fa fa-search"></i>
+                                </form>
+                            </div>
+                            -->
+                            <!-- ***** Search End ***** -->
+                            <!-- ***** Menu Start ***** -->
+                            <ul class="nav">
+                                <li><a href="/Home/Index" class="active">Home</a></li>
+                                <li><a href="/Home/">Browse</a></li>
+                                <li><a href="details.html">Details</a></li>
+                                <li><a href="/Home/Privacy">About<img src="assets/images/profile-header.jpg" alt=""></a></li>
+                                <li><a href="/Home/Profile">Profile</a></li>
+                            </ul>
+                            <a class='menu-trigger'>
+                                <span>Menu</span>
+                            </a>
+                            <!-- ***** Menu End ***** -->
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </nav>
+    <!-- ***** Header Area End ***** -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-content">
+
+
+
+                    @foreach (var item in Model)
+                    {
+                        if (item.userName == USER_NAME)
+                        {
+                         <!-- ***** Banner Start ***** -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="main-profile ">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <img src="data:image;base64,@System.Convert.ToBase64String(item.profilePic)" />
+                                    </div>
+                                    <div class="col-lg-4 align-self-center">
+                                        <div class="main-info header-text">
+
+                                            <h4>@item.userName</h4>
+                                            <p>@item.description</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="clips">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div class="heading-section">
+                                                        <h4><em>@item.userName</em> 's Posts</h4>
+                                                    </div>
+                                                </div>
+
+                                                        @foreach (var IMAGE in JsonConvert.DeserializeObject<List<Image>>(item.imagesJsonString))
+                                                        {
+                                                            if(IMAGE.Title == "dummy")
+                                                            {
+                                                                continue;
+                                                            }
+                                                            <img src="data:image;base64,@System.Convert.ToBase64String(IMAGE.image)" />
+                                                            <p> @IMAGE.Title</p>
+                                                            <p> @IMAGE.Description </p>
+                                                            <p> <span>Likes: </span>@IMAGE.likes</p>
+                                                            @Html.ActionLink(
+                                                "Like",
+                                                "check",                         // controller action
+                                                "Home",        // controller
+                                                new { name = item.userName, image = IMAGE.iID},         // action parameters aka route values
+                                                new { @class = "btn-info btn-small" })
+                                                            // html attributes
+                                                        }
+
+                                                <div class="col-lg-12">
+                                                    <div class="main-button">
+                                                        <a href="#">Go To Top</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ***** Banner End ***** -->
+
+                    }
+                   }
+                   
+
+
+
 <p>@qsPath.Substring(7)</p>
 
 @foreach(var item in Model)
@@ -36,3 +189,15 @@
     }
 }
 
+                    <!-- Scripts -->
+                    <!-- Bootstrap core JavaScript -->
+                    <script src="/jquery/jquery.min.js"></script>
+                    <script src="/js/bootstrap.min.js"></script>
+
+                    <script src="/js/isotope.min.js"></script>
+                    <script src="/js/owl-carousel.js"></script>
+                    <script src="/js/tabs.js"></script>
+                    <script src="/js/popup.js"></script>
+                    <script src="/js/custom.js"></script>
+
+</body>
