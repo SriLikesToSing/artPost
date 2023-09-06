@@ -219,21 +219,22 @@ namespace artPost_.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> check(string name, string image)
+        public async Task<IActionResult> checkHome(string name, string image)
         {
 
-            if(name == User.Identity.Name)
+            if (name == User.Identity.Name)
             {
-                return Redirect("Home/Profile");
+                return Redirect("Profile");
             }
 
             using var transaction = _db.Database.BeginTransaction();
 
             var specificUser = await _db.user.FirstOrDefaultAsync(x => x.userName == name);
+            var imageID = "";
 
             List<Image> imageData = JsonConvert.DeserializeObject<List<Image>>(specificUser.imagesJsonString);
 
-            for(int x=0; x<imageData.Count; x++)
+            for (int x = 0; x < imageData.Count; x++)
             {
                 if (imageData[x].iID == image && imageData[x].likeCount != null)
                 {
@@ -241,6 +242,7 @@ namespace artPost_.Controllers
                     likeList.Add(User.Identity.Name);
                     imageData[x].likeCount = JsonConvert.SerializeObject(likeList.Distinct().ToList());
                     imageData[x].likes = likeList.Distinct().ToList().Count;
+                    imageID = imageData[x].iID; 
                 }
             }
             specificUser.imagesJsonString = JsonConvert.SerializeObject(imageData);
@@ -248,8 +250,11 @@ namespace artPost_.Controllers
             _db.SaveChanges();
             transaction.Commit();
 
-            return RedirectToAction("viewOtherProfile", new { value = name });
+            return new RedirectResult(Url.Action("viewOtherProfile", new {value = name}) + '#'+imageID);
+
+
         }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

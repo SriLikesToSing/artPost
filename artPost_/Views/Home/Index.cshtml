@@ -1,9 +1,11 @@
 ﻿@model List<artPost.Models.user>
 @using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Home Page";
-
 }
 
 @{
@@ -12,8 +14,7 @@
     int userSize = Model.Count;
     Random rnd = new Random();
     rnd.Next();
-    int nindexesSize = rnd.Next(1, userSize);
-    <p>@nindexesSize</p>
+    int nindexesSize = rnd.Next(5, userSize);
 
     List<int> nIndexes = new List<int>();
 
@@ -25,14 +26,18 @@
     nIndexes = nIndexes.Distinct().ToList();
     }
 
+
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <title>Art Post</title>
+    <title>Cyborg - Awesome HTML5 Template</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -43,12 +48,13 @@
     <link rel="stylesheet" href="/css/templatemo-cyborg-gaming.css">
     <link rel="stylesheet" href="/css/owl.css">
     <link rel="stylesheet" href="/css/animate.css">
-    <link rel="stylesheet" href="/css/gallery.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
 
 </head>
+
 <body>
-      <!-- ***** Preloader Start ***** -->
+
+    <!-- ***** Preloader Start ***** -->
     <div id="js-preloader" class="js-preloader">
         <div class="preloader-inner">
             <span class="dot"></span>
@@ -61,82 +67,93 @@
     </div>
     <!-- ***** Preloader End ***** -->
     <!-- ***** Header Area Start ***** -->
-    <nav class="navbar">
-
     <header class="header-area header-sticky">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <nav class="main-nav">
                         <!-- ***** Logo Start ***** -->
-                        <a class="navbar-brand" href="/Home/index" style="position:fixed; left:100; top:0px; width:150px; border:none;">
-                            <img src="/images/artPostLogo2.png" width="150" alt="">
+                        <a href="/Home/Index" class="logo">
+                            <img src="/images/artPostLogo2.png" alt="" style="width:100px; left:330px; top:5px; position:fixed;" />
                         </a>
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Search End ***** -->
-                        <!--
-                        <div class="search-input">
+                        <div class="search-input" style="position:fixed; left:150px;">
                             <form id="search" action="#">
-                                <input type="text" placeholder="Type Something" id='searchText' name="searchKeyword" onkeypress="handle" />
-                                <i class="fa fa-search"></i>
+                                <input type="hidden" placeholder="Type Something" id='searchText' name="searchKeyword" onkeypress="handle" />
                             </form>
                         </div>
-                        -->
                         <!-- ***** Search End ***** -->
                         <!-- ***** Menu Start ***** -->
-                        <ul class="nav">
+                        <ul class="nav" style="position:fixed; right:400px;">
                             <li><a href="/Home/Index" class="active">Home</a></li>
-                            <li><a href="/Home/">Browse</a></li>
-                            <li><a href="details.html">Details</a></li>
-                            <li><a href="/Home/Privacy">Privacy<img src="assets/images/profile-header.jpg" alt=""></a></li>
-                            <li><a href="/Home/Profile">Profile</a></li>
-                        </ul>
+                            <li><a href="/Home/Privacy">About</a></li>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <li class="nav-item">
+                                    <a class="" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+                                </li>
+                                <li class="nav-item">
+                                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                        <button type="submit" class="active nav-link btn btn-link text-light">Logout</button>
+                                    </form>
+                                </li>
+                                <li><a href="/Home/Profile">Profile <img src="assets/images/profile-header.jpg" alt=""></a></li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a  asp-area="Identity" asp-page="/Account/Register">Register</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a style="position:fixed; top:35px;"class="" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                                </li>
+                            }
 
-
+                                    </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>
                         </a>
                         <!-- ***** Menu End ***** -->
-
-                            <partial name="_LoginPartial" />
                     </nav>
                 </div>
             </div>
         </div>
     </header>
-    </nav>
+    <!-- ***** Header Area End ***** -->
+
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="page-content">
 
-    <!-- ***** Header Area End ***** -->
-    <!-- ***** Banner Start ***** -->
-    <div class="main-banner">
-        <div class="row">
-            <div class="col-lg-7">
-                <div class="header-text">
-                    <h6>Welcome To ArtPost.</h6>
-                    <h4><em>Browse</em> Our Popular Posts Here</h4>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    <!-- ***** Banner End ***** -->
+                    <!-- ***** Banner Start ***** -->
+                    <div class="main-banner" style="background-image: url('/images/artPost.gif')";>
+                        <div class="row">
+                            <div class="col-lg-7">
+                                <div class="header-text">
+                                    <h6 style="color:navajowhite"> <strong>Welcome to Art Post.</strong></h6>
+                                    <h4 style="background-color: rgba(0, 0, 0, .5);" style="color:lightgreen"><em>_A Community</em> of Artists who love to share_</h4>
+                                    <div class="main-button">
+                                        <a href="/Home/createPost">Create Your Own Art Post</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ***** Banner End ***** -->
 
-    < class="container">
-    <div class="most-popular">
+
+    <div class="container">
+    <div class="most-popular" style="background-image: url('/images/artPost2.gif')">
         <div class="row">
             <div class="col-lg-9">
                 <div class="heading-section">
-                    <h4><em>Most Popular</em> Right Now</h4>
+                    <h4><em>Art</em> Right Now.</h4>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
 
@@ -148,7 +165,6 @@
                 if(imagesList == null || imagesList.Count == 1)
                 {
                     continue;
-
                 }
 
                 rnd.Next();
@@ -174,13 +190,21 @@
         {
             <a href="/Home/viewOtherProfile?value=@Model[index].userName">@Model[index].userName</a>
         }
-
-        <img src="data:image;base64,@System.Convert.ToBase64String(imagesList[randomPostIndex].image)" width="1000" alt=""/>
+        <div id=@Model[index].userName>
+        <img onclick="/Home/viewOtherProfile?value=@Model[index].userName"src="data:image;base64,@System.Convert.ToBase64String(imagesList[randomPostIndex].image)" width="800" alt=""/>
         <div class="overlay">
-        <h4>@imagesList[randomPostIndex-1].Title</h4>
-        <h5>@imagesList[randomPostIndex-1].Description</h5>
-        <li><i class="fa fa-star"></i> @imagesList[randomPostIndex-1].likes</li>
+        <h4>@imagesList[randomPostIndex].Title</h4>
+        <h5>@imagesList[randomPostIndex].Description</h5>
+        <li style="color: white"><i class="fa fa-star" style="color: gold"></i> @imagesList[randomPostIndex].likes</li>
+                        @Html.ActionLink(
+                "Like",
+                "checkHome",                         // controller action
+                "Home",        // controller
+                new { name = Model[index].userName, image = imagesList[randomPostIndex].iID},         // action parameters aka route values
+                new { @class = "btn-info btn-small" })
+                    }
            </div>
+       </div>
        </div>
 }
     </div>
