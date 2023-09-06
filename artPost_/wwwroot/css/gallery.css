@@ -1,0 +1,63 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px; /* Adjust the gap between items */
+    padding: 20px;
+}
+
+.item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+    .item:hover {
+        transform: scale(1.05); /* Enlarge the image on hover */
+    }
+
+    .item img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
+
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.item:hover .overlay {
+    opacity: 1;
+}
+
+.overlay h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.overlay p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.overlay span {
+    font-size: 12px;
+}
+
+/* Adjust the styles as needed */

@@ -4,6 +4,9 @@
 @{
     ViewData["Title"] = "Profile";
 }
+    <br />
+    <br />
+    <br />
 <h1>@ViewData["Title"]</h1>
 
 @{
@@ -157,38 +160,17 @@
                     </div>
                     <!-- ***** Banner End ***** -->
 
-  
-
-<p>Welcome @Model.userName</p>
-<a href="/Home/createPost" class="btn btn-primary">Create Post</a>
-<a href="/Home/createProfile" class="btn btn-primary">edit or create a new profile</a>
-
-<img src="data:image;base64,@System.Convert.ToBase64String(Model.profilePic)"/>
-<p>@Model.description</p>
-<p>followers: @Model.followers</p>
-
-
-@foreach(var IMAGE in userImages)
-
-{
-    <img src="data:image;base64,@System.Convert.ToBase64String(IMAGE.image)" width="500"/>
-    <p> @IMAGE.Title</p>
-    <p> @IMAGE.Description </p>
-    <p> @IMAGE.likes</p>
-    <p> @IMAGE.likeCount</p>
-}
-
-            <footer>
-                <div class="container">
-                    <div class="row">
-                            <div class="col-lg-12">
-                                <p>
-                                    Copyright © 2036 <a href="#">Art Post</a> Company. All rights reserved.
-                                </p>
-                            </div>
-                        </div>
+    <footer>
+        <div class="container">
+            <div class="row">
+                    <div class="col-lg-12">
+                        <p>
+                            Copyright © 2036 <a href="#">Art Post</a> Company. All rights reserved.
+                        </p>
                     </div>
-                </footer>
+                </div>
+            </div>
+        </footer>
 
     <!-- Scripts -->
     <!-- Bootstrap core JavaScript -->

@@ -7,18 +7,22 @@
 }
 
 @{
-        int userSize = Model.Count;
-        Random rnd = new Random();
-        int nindexesSize = rnd.Next(1, userSize);
 
-        List<int> nIndexes = new List<int>();
 
-        for(int x=0; x<nindexesSize; x++)
-        {
-            nIndexes.Add(rnd.Next(0, userSize));
-        }
+    int userSize = Model.Count;
+    Random rnd = new Random();
+    rnd.Next();
+    int nindexesSize = rnd.Next(1, userSize);
+    <p>@nindexesSize</p>
 
-        nIndexes = nIndexes.Distinct().ToList();
+    List<int> nIndexes = new List<int>();
+
+    for(int x=0; x<nindexesSize; x++)
+    {
+        nIndexes.Add(rnd.Next(0, userSize));
+    }
+
+    nIndexes = nIndexes.Distinct().ToList();
     }
 
 <head>
@@ -39,6 +43,7 @@
     <link rel="stylesheet" href="/css/templatemo-cyborg-gaming.css">
     <link rel="stylesheet" href="/css/owl.css">
     <link rel="stylesheet" href="/css/animate.css">
+    <link rel="stylesheet" href="/css/gallery.css">
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
 
 </head>
@@ -64,7 +69,7 @@
                 <div class="col-12">
                     <nav class="main-nav">
                         <!-- ***** Logo Start ***** -->
-                        <a class="navbar-brand" href="/Home/index" style="position:fixed; left:0; top:0px; width:150px; border:none;">
+                        <a class="navbar-brand" href="/Home/index" style="position:fixed; left:100; top:0px; width:150px; border:none;">
                             <img src="/images/artPostLogo2.png" width="150" alt="">
                         </a>
                         <!-- ***** Logo End ***** -->
@@ -86,19 +91,44 @@
                             <li><a href="/Home/Privacy">Privacy<img src="assets/images/profile-header.jpg" alt=""></a></li>
                             <li><a href="/Home/Profile">Profile</a></li>
                         </ul>
+
+
                         <a class='menu-trigger'>
                             <span>Menu</span>
                         </a>
                         <!-- ***** Menu End ***** -->
+
+                            <partial name="_LoginPartial" />
                     </nav>
                 </div>
             </div>
         </div>
     </header>
     </nav>
-    <!-- ***** Header Area End ***** -->
-
     <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-content">
+
+    <!-- ***** Header Area End ***** -->
+    <!-- ***** Banner Start ***** -->
+    <div class="main-banner">
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="header-text">
+                    <h6>Welcome To ArtPost.</h6>
+                    <h4><em>Browse</em> Our Popular Posts Here</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    <!-- ***** Banner End ***** -->
+
+    < class="container">
     <div class="most-popular">
         <div class="row">
             <div class="col-lg-9">
@@ -110,62 +140,56 @@
     </div>
 
 
-  <div class="w-100 mt-5 d-flex flex-wrap">
-
+ <div class="gallery">
     @foreach(var index in nIndexes)
 {
-    <br/>
-    List<Image> imagesList = JsonConvert.DeserializeObject<List<Image>>(Model[index].imagesJsonString);
-    if(imagesList == null || imagesList.Count == 1)
-    {
-        continue;
-    }
+                <br/>
+                List<Image> imagesList = JsonConvert.DeserializeObject<List<Image>>(Model[index].imagesJsonString);
+                if(imagesList == null || imagesList.Count == 1)
+                {
+                    continue;
+
+                }
+
+                rnd.Next();
+
+                if(imagesList.Count < 1)
+                {
+                    continue;
+                }
+
     var randomPostIndex = rnd.Next(1, imagesList.Count);
 
     //temp for temp user purposes IGNNNORE THE FUCKING LEGACY USER LOL
-    if(imagesList[randomPostIndex].image == null)
+    @if(imagesList[randomPostIndex].image == null)
     {
         continue;
     }
-                <div class="row">
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="item">
-                        @if(Model[index].userName == User.Identity.Name)
-                        {
-                            <a href="/Home/Profile">@Model[index].userName</a>
-                        }
-                        else
-                        {
-                            <a href="/Home/viewOtherProfile?value=@Model[index].userName">@Model[index].userName</a>
-                        }
-                        <img src="data:image;base64,@System.Convert.ToBase64String(imagesList[randomPostIndex].image)" width="500" alt=""/>
-                            <h4>@imagesList[randomPostIndex].Title<br><span>@imagesList[randomPostIndex].Description</span></h4>
-                            <ul>
-                                <li><i class="fa fa-star"></i> @imagesList[randomPostIndex].likes</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-}
+    <div class="item">
+        @if(Model[index].userName == User.Identity.Name)
+        {
+            <a href="/Home/Profile">@Model[index].userName</a>
+        }
+        else
+        {
+            <a href="/Home/viewOtherProfile?value=@Model[index].userName">@Model[index].userName</a>
+        }
 
-        <div class="col-lg-3 col-sm-6">
-            <div class="item">
-                <img src="assets/images/popular-02.jpg" alt="">
-                <h4>PubG<br><span>Battle S</span></h4>
-                <ul>
-                    <li><i class="fa fa-star"></i> 4.8</li>
-                    <li><i class="fa fa-download"></i> 2.3M</li>
-                </ul>
-            </div>
-        </div>
-      </div>
-  </div>
+        <img src="data:image;base64,@System.Convert.ToBase64String(imagesList[randomPostIndex].image)" width="1000" alt=""/>
+        <div class="overlay">
+        <h4>@imagesList[randomPostIndex-1].Title</h4>
+        <h5>@imagesList[randomPostIndex-1].Description</h5>
+        <li><i class="fa fa-star"></i> @imagesList[randomPostIndex-1].likes</li>
+           </div>
+       </div>
+}
+    </div>
 
     <footer>
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <p>
+                    <p >
                         Copyright © 2036 <a href="#">Art Post</a> Company. All rights reserved.
                     </p>
                 </div>
@@ -186,3 +210,6 @@
     <script src="/js/custom.js"></script>
 </body>
 
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
