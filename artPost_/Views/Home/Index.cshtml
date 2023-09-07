@@ -51,7 +51,6 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
 
 </head>
-
 <body>
 
     <!-- ***** Preloader Start ***** -->
@@ -190,7 +189,6 @@
         {
             <a href="/Home/viewOtherProfile?value=@Model[index].userName">@Model[index].userName</a>
         }
-        <div id=@Model[index].userName>
         <img onclick="/Home/viewOtherProfile?value=@Model[index].userName"src="data:image;base64,@System.Convert.ToBase64String(imagesList[randomPostIndex].image)" width="800" alt=""/>
         <div class="overlay">
         <h4>@imagesList[randomPostIndex].Title</h4>
@@ -203,7 +201,6 @@
                 new { name = Model[index].userName, image = imagesList[randomPostIndex].iID},         // action parameters aka route values
                 new { @class = "btn-info btn-small" })
                     }
-           </div>
        </div>
        </div>
 }
@@ -233,6 +230,7 @@
     <script src="/js/popup.js"></script>
     <script src="/js/custom.js"></script>
 </body>
+</html>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

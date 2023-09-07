@@ -1,11 +1,13 @@
 ﻿
 <div class="text-center">
     <h1 class="display-4">Create a New Profile.</h1>
-    <h4> remember... one of our quirks is that the description and profile picture are permanent and cannot be changed later, so think wisely.</h4>
-    <form method="POST" enctype="multipart/form-data">
-        <input type="textarea" id="profileDescription" name="ProfileDescription" placeholder="Profile Description">
+    <h4> remember... one of our quirks is that we love simple web design, because it's easier on our eyes and allows us to focus on the real stuff.</h4>
+    <br />
+    <form style="position:fixed; left:600px;" method="POST" enctype="multipart/form-data">
+        <input class="form-text text-muted"type="textarea" id="profileDescription" name="ProfileDescription" placeholder="Profile Description">
         <input type="file" id="profilePostImage" name="ProfilePostImage" accept="image/*"/>
         <br />
-        <input onclick="/Home/Profile"type="submit" value="Submit" />
+        <br />
+        <input class="btn btn-light"style="position:fixed; left:720px;"onclick="/Home/Profile"type="submit" value="Submit" />
     </form>
 </div>

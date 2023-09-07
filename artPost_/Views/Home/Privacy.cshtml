@@ -1,34 +1,36 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@{
     ViewData["Title"] = "About";
 }
-<br />
-<br />
-<br />
-<br />
-<br />
-<h1>@ViewData["Title"]</h1>
 
 
-<head>
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <title>Cyborg - Awesome HTML5 Template</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="/css/fontawesome.css">
-    <link rel="stylesheet" href="/css/templatemo-cyborg-gaming.css">
-    <link rel="stylesheet" href="/css/owl.css">
-    <link rel="stylesheet" href="/css/animate.css">
-    <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-</head>
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-cyborg-gaming.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet"href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+  </head>
 
 <body>
 
@@ -51,25 +53,43 @@
                 <div class="col-12">
                     <nav class="main-nav">
                         <!-- ***** Logo Start ***** -->
-                        <a href="index.html" class="logo">
-                            <img src="assets/images/logo.png" alt="">
+                        <a href="/Home/Index" class="logo">
+                            <img src="/images/artPostLogo2.png" alt="" style="width:100px; left:330px; top:5px; position:fixed;" />
                         </a>
                         <!-- ***** Logo End ***** -->
-                        <!-- ***** Search End *****
-                        <div class="search-input">
+                        <!-- ***** Search End ***** -->
+                        <div class="search-input" style="position:fixed; left:150px;">
                             <form id="search" action="#">
-                                <input type="text" placeholder="Type Something" id='searchText' name="searchKeyword" onkeypress="handle" />
-                                <i class="fa fa-search"></i>
+                                <input type="hidden" placeholder="Type Something" id='searchText' name="searchKeyword" onkeypress="handle" />
                             </form>
                         </div>
-                         -->
+                        <!-- ***** Search End ***** -->
                         <!-- ***** Menu Start ***** -->
-                        <ul class="nav">
+                        <ul class="nav" style="position:fixed; right:400px;">
                             <li><a href="/Home/Index" class="active">Home</a></li>
-                            <li><a href="/Home/">Browse</a></li>
-                            <li><a href="details.html">Details</a></li>
-                            <li><a href="/Home/Privacy">About<img src="assets/images/profile-header.jpg" alt=""></a></li>
-                            <li><a href="/Home/Profile">Profile</a></li>
+                            <li><a href="/Home/Privacy">About</a></li>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <li class="nav-item">
+                                    <a class="" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+                                </li>
+                                <li class="nav-item">
+                                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                        <button type="submit" class="active nav-link btn btn-link text-light">Logout</button>
+                                    </form>
+                                </li>
+                                <li><a href="/Home/Profile">Profile <img src="assets/images/profile-header.jpg" alt=""></a></li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a asp-area="Identity" asp-page="/Account/Register">Register</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a style="position:fixed; top:35px;" class="" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                                </li>
+                            }
+
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>
@@ -81,37 +101,54 @@
         </div>
     </header>
     <!-- ***** Header Area End ***** -->
-<br />
-<br />
-<h3>Welcome to art post, a website that let's you post all your art and share it to the world.</h3>
 
-<br />
 
-<img src="/images/privacyImage.png" alt="" />
+    <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="page-content">
 
-    <footer>
-        <div class="container">
+          <!-- ***** Banner Start ***** -->
+          <div class="main-banner" style="background-image: url('/images/privacyImage.png');" >
             <div class="row">
-                <div class="col-lg-12">
-                    <p>
-                        Copyright © 2036 <a href="#">Art Post</a> Company. All rights reserved.
-                    </p>
+              <div class="col-lg-7">
+                <div class="header-text">
+                  <h4><em></em> <mark>Art Post</mark></h4> 
+                  <h4><mark> is a community of like </mark></h4>
+                  <h4> <mark>minded artists who </mark></h4>
+                  <h4><mark>share and explore art </mark></h4>
+                  <h4><mark>all around the world. </mark></h4>
                 </div>
+              </div>
+              <img src="/images/privacyImage.png"/>
             </div>
+          </div>
+          <!-- ***** Banner End ***** -->
+
+           <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <p>Copyright © 2036 <a href="#">Cyborg Gaming</a> Company. All rights reserved. 
         </div>
-    </footer>
-
-    <!-- Scripts -->
-    <!-- Bootstrap core JavaScript -->
-    <script src="/jquery/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-
-    <script src="/js/isotope.min.js"></script>
-    <script src="/js/owl-carousel.js"></script>
-    <script src="/js/tabs.js"></script>
-    <script src="/js/popup.js"></script>
-    <script src="/js/custom.js"></script>
+      </div>
+    </div>
+  </footer>
 
 
-</body>
+  <!-- Scripts -->
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+  <script src="assets/js/isotope.min.js"></script>
+  <script src="assets/js/owl-carousel.js"></script>
+  <script src="assets/js/tabs.js"></script>
+  <script src="assets/js/popup.js"></script>
+  <script src="assets/js/custom.js"></script>
+
+
+  </body>
+
+</html>
 

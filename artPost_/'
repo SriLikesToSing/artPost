@@ -1,32 +1,13 @@
-@model List<artPost.Models.user>
-@using Newtonsoft.Json;
 
-@{
-    ViewData["Title"] = "viewOtherProfile";
-    var routeUrl = Url.RouteUrl(ViewContext.RouteData.Values);
-    var qsPath = ViewContext.HttpContext.Request.QueryString.Value;
-    var returnUrl = $"{routeUrl}{qsPath}";
-    var USER_NAME = qsPath.Substring(7);
-}
-
-<p>@qsPath.Substring(7)</p>
-
-@foreach(var item in Model)
-{
-    if(item.userName == USER_NAME)
-    {
-        <img src="data:image;base64,@System.Convert.ToBase64String(item.profilePic)" />
-        <input onclick=@item.followers++ type="submit" value="Follow" />
-        <p>@item.description</p>
-        <p>followers: @item.followers</p>
-
-        @foreach(var IMAGE in JsonConvert.DeserializeObject<List<Image>>(item.imagesJsonString))
-        {
-            <img src="data:image;base64,@System.Convert.ToBase64String(IMAGE.image)" />
-            <p> @IMAGE.Title</p>
-            <p> @IMAGE.Description </p>
-        }
-    }
-}
-
-<p> what's up mothertruckers'</p>
+<div class="text-center">
+    <h1 class="display-4">Create a New Profile.</h1>
+    <h4> remember... one of our quirks is that the description and profile picture are permanent and cannot be changed later, so think wisely.</h4>
+    <br />
+    <h4> Just Kidding! </h4>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="textarea" id="profileDescription" name="ProfileDescription" placeholder="Profile Description">
+        <input type="file" id="profilePostImage" name="ProfilePostImage" accept="image/*"/>
+        <br />
+        <input onclick="/Home/Profile"type="submit" value="Submit" />
+    </form>
+</div>

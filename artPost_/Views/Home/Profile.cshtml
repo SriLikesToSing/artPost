@@ -1,19 +1,18 @@
 ﻿@model artPost.Models.user
 @using Newtonsoft.Json;
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Profile";
 }
     <br />
-    <br />
-    <br />
-<h1>@ViewData["Title"]</h1>
 
 @{
     bool isCreated = false;
     List<Image> userImages = JsonConvert.DeserializeObject<List<Image>>(Model.imagesJsonString);
 }
-
 
    <head>
 
@@ -36,7 +35,7 @@
 
   <body>
 
-  <!-- ***** Preloader Start ***** -->
+    <!-- ***** Preloader Start ***** -->
     <div id="js-preloader" class="js-preloader">
         <div class="preloader-inner">
             <span class="dot"></span>
@@ -49,35 +48,49 @@
     </div>
     <!-- ***** Preloader End ***** -->
     <!-- ***** Header Area Start ***** -->
-    <nav class="navbar">
-
     <header class="header-area header-sticky">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <nav class="main-nav">
                         <!-- ***** Logo Start ***** -->
-                        <a class="navbar-brand" href="/Home/index" style="position:fixed; left:0; top:0px; width:150px; border:none;">
-                            <img src="/images/artPostLogo2.png" width="150" alt="">
+                        <a href="/Home/Index" class="logo">
+                            <img src="/images/artPostLogo2.png" alt="" style="width:100px; left:330px; top:5px; position:fixed;" />
                         </a>
                         <!-- ***** Logo End ***** -->
                         <!-- ***** Search End ***** -->
-                        <!--
-                        <div class="search-input">
+                        <div class="search-input" style="position:fixed; left:150px;">
                             <form id="search" action="#">
-                                <input type="text" placeholder="Type Something" id='searchText' name="searchKeyword" onkeypress="handle" />
-                                <i class="fa fa-search"></i>
+                                <input type="hidden" placeholder="Type Something" id='searchText' name="searchKeyword" onkeypress="handle" />
                             </form>
                         </div>
-                        -->
                         <!-- ***** Search End ***** -->
                         <!-- ***** Menu Start ***** -->
-                        <ul class="nav">
+                        <ul class="nav" style="position:fixed; right:400px;">
                             <li><a href="/Home/Index" class="active">Home</a></li>
-                            <li><a href="/Home/">Browse</a></li>
-                            <li><a href="details.html">Details</a></li>
-                            <li><a href="/Home/Privacy">About<img src="assets/images/.jpg" alt=""></a></li>
-                            <li><a href="/Home/Profile">Profile</a></li>
+                            <li><a href="/Home/Privacy">About</a></li>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <li class="nav-item">
+                                    <a class="" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+                                </li>
+                                <li class="nav-item">
+                                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                        <button type="submit" class="active nav-link btn btn-link text-light">Logout</button>
+                                    </form>
+                                </li>
+                                <li><a href="/Home/Profile">Profile <img src="assets/images/profile-header.jpg" alt=""></a></li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a asp-area="Identity" asp-page="/Account/Register">Register</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a style="position:fixed; top:35px;" class="" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                                </li>
+                            }
+
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>
@@ -88,8 +101,9 @@
             </div>
         </div>
     </header>
-    </nav>
     <!-- ***** Header Area End ***** -->
+
+
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -105,9 +119,9 @@
                                     </div>
                                     <div class="col-lg-4 align-self-center">
                                         <div class="main-info header-text">
-                                            <a href="/Home/createProfile" class="btn btn-primary">edit or create a new profile</a>
+                                            <a href="/Home/createProfile" class="btn btn-dark">edit or create a new profile</a>
                                             <h4>@Model.userName</h4>
-                                            <p>@Model.description</p>
+                                            <p style="color:white">@Model.description</p>
                                             <div class="main-border-button">
                                                 <a href="/Home/createPost">Create Post</a>
                                             </div>
@@ -143,7 +157,7 @@
                                                             <br/>
                                                             <h4> @IMAGE.Title</h4>
                                                             <p> @IMAGE.Description </p>
-                                                            <span><i class="fa fa-eye"></i> @IMAGE.likes</span>
+                                                            <span style="color:white"><i class="fa fa-star" style="color:gold"></i> @IMAGE.likes</span>
                                                         </div>
                                                 }
                                                 <div class="col-lg-12">
