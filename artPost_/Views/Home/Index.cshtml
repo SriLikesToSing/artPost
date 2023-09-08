@@ -14,7 +14,13 @@
     int userSize = Model.Count;
     Random rnd = new Random();
     rnd.Next();
-    int nindexesSize = rnd.Next(5, userSize);
+    int nindexesSize = 0;
+
+
+
+    if(userSize != 0){
+        nindexesSize = rnd.Next(0, userSize);
+    }
 
     List<int> nIndexes = new List<int>();
 
