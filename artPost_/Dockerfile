@@ -19,4 +19,4 @@ RUN dotnet publish "artPost_.csproj" -c Release -o /app/publish /p:UseAppHost=fa
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "artPost_.dll"]
+ENTRYPOINT ["dotnet", "artPost_.dll", "--environment=Development"]

@@ -9,8 +9,6 @@
 }
 
 @{
-
-
     int userSize = Model.Count;
     Random rnd = new Random();
     rnd.Next();
@@ -19,7 +17,7 @@
 
 
     if(userSize != 0){
-        nindexesSize = rnd.Next(0, userSize);
+        nindexesSize = rnd.Next(1, userSize);
     }
 
     List<int> nIndexes = new List<int>();
@@ -43,7 +41,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <title>Cyborg - Awesome HTML5 Template</title>
+    <title>Art Post</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
