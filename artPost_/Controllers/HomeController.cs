@@ -160,9 +160,16 @@ namespace artPost_.Controllers
         [HttpPost]
         public async Task<IActionResult> createPost(string title, string description, IFormFile Image )
         {
-            if(title == null || description == null || Image == null)
+            if(title == null || Image == null)
             {
                 return View();
+            }
+
+            var DESCRIPTION = "";
+
+            if(description != null)
+            {
+                DESCRIPTION = description;
             }
 
             byte [] byteImage; 
@@ -183,14 +190,14 @@ namespace artPost_.Controllers
                 return View();
             }
 
-            Debug.WriteLine(title + " " + description + " " + Image);
+            //Debug.WriteLine(title + " " + description + " " + Image);
             using var transaction = _db.Database.BeginTransaction();
             Guid guid = Guid.NewGuid();
 
             var POST = new Image
             {
                 Title = title,
-                Description = description,
+                Description = DESCRIPTION,
                 image = byteImage,
                 ownerId = User.Identity.Name,
                 likeCount = JsonConvert.SerializeObject(new List<string> { User.Identity.Name }),
