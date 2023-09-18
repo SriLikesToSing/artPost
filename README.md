@@ -1,2 +1,4 @@
 # artPost
-tumblr like full stack web application
+social media platform to post and view art.
+
+https://art-post.fly.dev/
