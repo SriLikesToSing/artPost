@@ -46,62 +46,7 @@
         </div>
     </div>
     <!-- ***** Preloader End ***** -->
-    <!-- ***** Header Area Start ***** -->
-    <header class="header-area header-sticky">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <nav class="main-nav">
-                        <!-- ***** Logo Start ***** -->
-                        <a href="/Home/Index" class="logo">
-                            <img src="/images/artPostLogo2.png" alt="" style="width:100px; left:330px; top:5px; position:fixed;" />
-                        </a>
-                        <!-- ***** Logo End ***** -->
-                        <!-- ***** Search End ***** -->
-                        <div class="search-input" style="position:fixed; left:150px;">
-                            <form id="search" action="#">
-                                <input type="hidden" placeholder="Type Something" id='searchText' name="searchKeyword" onkeypress="handle" />
-                            </form>
-                        </div>
-                        <!-- ***** Search End ***** -->
-                        <!-- ***** Menu Start ***** -->
-                        <ul class="nav" style="position:fixed; right:400px;">
-                            <li><a href="/Home/Index" class="active">Home</a></li>
-                            <li><a href="/Home/Privacy">About</a></li>
-                            @if (SignInManager.IsSignedIn(User))
-                            {
-                                <li class="nav-item">
-                                    <a class="" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
-                                </li>
-                                <li class="nav-item">
-                                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                                        <button type="submit" class="active nav-link btn btn-link text-light">Logout</button>
-                                    </form>
-                                </li>
-                                <li><a href="/Home/Profile">Profile <img src="assets/images/profile-header.jpg" alt=""></a></li>
-                            }
-                            else
-                            {
-                                <li class="nav-item">
-                                    <a asp-area="Identity" asp-page="/Account/Register">Register</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a style="position:fixed; top:35px;" class="" asp-area="Identity" asp-page="/Account/Login">Login</a>
-                                </li>
-                            }
-
-                        </ul>
-                        <a class='menu-trigger'>
-                            <span>Menu</span>
-                        </a>
-                        <!-- ***** Menu End ***** -->
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
-    <!-- ***** Header Area End ***** -->
-
+   
         <div class="container">
         <div class="row">
             <div class="col-lg-12">

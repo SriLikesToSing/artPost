@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for art-post on 2023-09-08T19:07:01-07:00
+# fly.toml app configuration file generated for divine-haze-7243 on 2023-09-27T12:18:19-07:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -8,8 +8,14 @@ primary_region = "lax"
 
 [build]
 
+
+[mounts]
+  source="artpost_dat"
+  destination="/data"
+
 [env]
-SEND_GRID = "secrets.SEND_GRID"
+SEND_GRID= "secrets.SEND_GRID"
+
 
 [http_service]
   internal_port = 80
